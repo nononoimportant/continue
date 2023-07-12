@@ -18,6 +18,7 @@ import { HistoryNode } from "../../../schema/HistoryNode";
 import ReactMarkdown from "react-markdown";
 import HeaderButtonWithText from "./HeaderButtonWithText";
 import CodeBlock from "./CodeBlock";
+import ReactMarkdownStreamed from "./ReactMarkdownStreamed";
 
 interface StepContainerProps {
   historyNode: HistoryNode;
@@ -246,27 +247,30 @@ function StepContainer(props: StepContainerProps) {
               {props.historyNode.observation.error as string}
             </pre>
           ) : (
-            <ReactMarkdown
-              key={1}
-              className="overflow-x-scroll"
-              components={{
-                pre: ({ node, ...props }) => {
-                  return (
-                    <CodeBlock
-                      children={(props.children[0] as any).props.children[0]}
-                    />
-                  );
-                },
-                code: ({ node, ...props }) => {
-                  return <StyledCode children={props.children[0] as any} />;
-                },
-                ul: ({ node, ...props }) => {
-                  return <ul className="ml-0" {...props} />;
-                },
-              }}
-            >
-              {props.historyNode.step.description as any}
-            </ReactMarkdown>
+            <ReactMarkdownStreamed
+              source={props.historyNode.step.description as string}
+            />
+            // <ReactMarkdown
+            //   key={1}
+            //   className="overflow-x-scroll"
+            //   components={{
+            //     pre: ({ node, ...props }) => {
+            //       return (
+            //         <CodeBlock
+            //           children={(props.children[0] as any).props.children[0]}
+            //         />
+            //       );
+            //     },
+            //     code: ({ node, ...props }) => {
+            //       return <StyledCode children={props.children[0] as any} />;
+            //     },
+            //     ul: ({ node, ...props }) => {
+            //       return <ul className="ml-0" {...props} />;
+            //     },
+            //   }}
+            // >
+            //   {props.historyNode.step.description as any}
+            // </ReactMarkdown>
           )}
         </ContentDiv>
       </StepContainerDiv>
