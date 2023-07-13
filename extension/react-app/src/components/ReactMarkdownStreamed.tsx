@@ -11,7 +11,7 @@ import { marked } from "marked";
  * @param new_ - The new DOM node
  */
 function compareAndUpdateDomNode(old: Node, new_: Node) {
-  console.log(old, new_);
+  // console.log(old, new_);
   if (typeof old === "undefined" || typeof new_ === "undefined") return;
 
   // Base case: Text nodes are always replaced
@@ -36,8 +36,19 @@ function compareAndUpdateDomNode(old: Node, new_: Node) {
     compareAndUpdateDomNode(old.childNodes[i], new_.childNodes[i]);
   }
   for (let i = numOldChildNodes; i < new_.childNodes.length; i++) {
-    console.log("Appending new node: ", new_.childNodes[i]);
-    old.appendChild(new_.childNodes[i]);
+    console.log(
+      "Appending new node: ",
+      new_.childNodes[i],
+      new_.childNodes[i].nodeName
+    );
+    if (new_.childNodes[i].nodeName === "PRE") {
+      console.log("Appending code block");
+      old.appendChild(
+        CodeBlock({ children: new_.childNodes[i].textContent || "" }) as any
+      );
+    } else {
+      old.appendChild(new_.childNodes[i]);
+    }
   }
 }
 //   // If the node types are completely different, replace the old node with the new node
@@ -225,7 +236,7 @@ function ReactMarkdownStreamed(props: { source: string }) {
       newRootDiv.appendChild(child);
     }
 
-    console.log("Source: ", props.source);
+    // console.log("Source: ", props.source);
 
     compareAndUpdateDomNode(rootRef.current, newRootDiv);
   }, [props.source]);
