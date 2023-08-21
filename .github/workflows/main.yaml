@@ -7,11 +7,7 @@ on:
 
 jobs:
   pyinstaller:
-    strategy:
-      matrix:
-        os: [macos-latest]
-
-    runs-on: [${{ matrix.os }}, ARM64]
+    runs-on: [macos-latest, ARM64]
 
     steps:
       # Install Python requirements and build+upload binaries for each platform
