@@ -203,7 +203,7 @@ class LlamaCpp(LLM):
                     json={"prompt": prompt, **self._transform_args(args)},
                     headers={"Content-Type": "application/json"},
                 ) as resp:
-                    json_resp = await resp.json()
+                    json_resp = await resp.json(content_type=None)
                     completion = json_resp["content"]
                     self.write_log(f"Completion: \n\n{completion}")
                     return completion
