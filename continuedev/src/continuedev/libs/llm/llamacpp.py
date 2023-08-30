@@ -16,8 +16,8 @@ from .prompts.chat import code_llama_template_messages
 
 
 class LlamaCpp(LLM):
-    max_context_length: int = 2048
-    server_url: str = "http://localhost:8080"
+    max_context_length: int = 4096
+    server_url: str = "http://localhost:5001/api"
     verify_ssl: Optional[bool] = None
 
     template_messages: Callable[[List[ChatMessage]], str] = code_llama_template_messages
@@ -114,7 +114,7 @@ class LlamaCpp(LLM):
             connector=aiohttp.TCPConnector(verify_ssl=self.verify_ssl)
         ) as client_session:
             async with client_session.post(
-                f"{self.server_url}/api/completion",
+                f"{self.server_url}/completion",
                 json={
                     "prompt": self.convert_to_chat(messages),
                     **self._transform_args(args),
@@ -152,7 +152,7 @@ class LlamaCpp(LLM):
                 connector=aiohttp.TCPConnector(verify_ssl=self.verify_ssl)
             ) as client_session:
                 async with client_session.post(
-                    f"{self.server_url}/api/completion",
+                    f"{self.server_url}/completion",
                     json={"prompt": prompt, **self._transform_args(args)},
                     headers=headers,
                 ) as resp:
