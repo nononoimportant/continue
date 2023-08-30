@@ -114,7 +114,7 @@ class LlamaCpp(LLM):
             connector=aiohttp.TCPConnector(verify_ssl=self.verify_ssl)
         ) as client_session:
             async with client_session.post(
-                f"{self.server_url}/completion",
+                f"{self.server_url}/api/completion",
                 json={
                     "prompt": self.convert_to_chat(messages),
                     **self._transform_args(args),
@@ -152,7 +152,7 @@ class LlamaCpp(LLM):
                 connector=aiohttp.TCPConnector(verify_ssl=self.verify_ssl)
             ) as client_session:
                 async with client_session.post(
-                    f"{self.server_url}/completion",
+                    f"{self.server_url}/api/completion",
                     json={"prompt": prompt, **self._transform_args(args)},
                     headers=headers,
                 ) as resp:
@@ -199,7 +199,7 @@ class LlamaCpp(LLM):
                 connector=aiohttp.TCPConnector(verify_ssl=self.verify_ssl)
             ) as client_session:
                 async with client_session.post(
-                    f"{self.server_url}/completion",
+                    f"{self.server_url}/api/completion",
                     json={"prompt": prompt, **self._transform_args(args)},
                     headers={"Content-Type": "application/json"},
                 ) as resp:
